@@ -41,3 +41,8 @@ jobs:
           name: upload coverage
           command: |
             venv/bin/codecov
+
+      - run:
+          name: upload pypi
+          command: |
+            venv/bin/tox -e pypi
