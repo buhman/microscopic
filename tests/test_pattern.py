@@ -32,7 +32,6 @@ def test_match_sanity(ctx):
     expected = [(b' ', b'fo'), (b' ', None)]
 
     result = unroll(ctx, calls)
-
     assert result == expected
 
 
@@ -41,7 +40,6 @@ def test_match_multiple(ctx):
     expected = [(b'', b'fo'), (b' ', b'fo'), (b' ', b'fo'), (b' ', None)]
 
     result = unroll(ctx, calls)
-
     assert result == expected
 
 
@@ -50,7 +48,6 @@ def test_nonmatch_sanity(ctx):
     expected = [(b'    ', None)]
 
     result = unroll(ctx, calls)
-
     assert result == expected
 
 
@@ -59,7 +56,6 @@ def test_nonmatch_nocombine(ctx):
     expected = [(b'test', None), (b'test', None)]
 
     result = unroll(ctx, calls)
-
     assert result == expected
 
 
@@ -67,7 +63,6 @@ def test_match_drain(ctx):
     calls = [b'fo']
 
     result = unroll(ctx, calls)
-
     assert result == []
     assert ctx.drain() == (None, b'fo')
 
