@@ -7,17 +7,26 @@ jobs:
       - image: python:3.6
     steps:
       - checkout
+
+      - restore_cache:
+          key: ci-venv-{{ checksum "ci-requirements.txt" }}
       - run:
           name: install ci-requirements
-          command:
-            pip install -r ci-requirements.txt
+          command: |
+            test -e venv && exit 0
+            python -m venv venv
+            venv/bin/pip install -r ci-requirements.txt
+      - save_cache:
+          key: ci-venv-{{ checksum "ci-requirements.txt" }}
+          paths:
+            - "venv"
 
       - restore_cache:
           key: microscopic-{{ checksum "requirements.txt" }}-{{ checksum "test-requirements.txt" }}-{{ checksum "doc-requirements.txt" }}
       - run:
           name: install deps
           command: |
-            tox --notest
+            venv/bin/tox --notest
       - save_cache:
           key: microscopic-{{ checksum "requirements.txt" }}-{{ checksum "test-requirements.txt" }}-{{ checksum "doc-requirements.txt" }}
           paths:
@@ -26,9 +35,9 @@ jobs:
       - run:
           name: run tests
           command: |
-            tox
+            venv/bin/tox
 
       - run:
           name: upload coverage
           command: |
-            codecov
+            venv/bin/codecov
