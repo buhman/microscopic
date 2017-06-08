@@ -19,10 +19,10 @@ async def pump_queue(queue: Deque[Union[asyncio.Future, str]], *, wait: bool=Fal
 
         if not isinstance(item, asyncio.Future):
             yield item
-        elif item.done():
-            yield unwrap(item)
         elif wait:
             await item
+            yield unwrap(item)
+        elif item.done():
             yield unwrap(item)
         else:
             queue.appendleft(item)

@@ -52,7 +52,16 @@ async def test_pump_queue_string_future(loop):
     assert result == ['test', 'bar']
 
 
-async def test_pump_queue_string_future_wait(loop):
+async def test_pump_queue_wait_unwraps(loop):
+    future = loop.create_future()
+    queue = deque([future])
+
+    future.set_result('test')
+    result = await as_list(pump_queue(queue, wait=True))
+    assert result == ['test']
+
+
+async def test_pump_queue_wait_waits(loop):
     future = loop.create_future()
     queue = deque(['foo', future, 'bar'])
 
