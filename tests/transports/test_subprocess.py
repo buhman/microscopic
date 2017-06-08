@@ -1,5 +1,3 @@
-import asyncio
-
 import pytest
 
 from microscopic.transports import subprocess
@@ -26,7 +24,7 @@ def st(request):
 
     yield st
 
-    assert st._process.returncode != None
+    assert st._process.returncode is not None
 
 
 async def test_sanity(st):
