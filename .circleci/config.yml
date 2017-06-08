@@ -1,0 +1,34 @@
+version: 2
+
+jobs:
+  build:
+    working_directory: /build
+    docker:
+      - image: python:3.6
+    steps:
+      - checkout
+      - run:
+          name: install ci-requirements
+          command:
+            pip install -r ci-requirements.txt
+
+      - restore_cache:
+          key: microscopic-{{ checksum "requirements.txt" }}-{{ checksum "test-requirements.txt" }}-{{ checksum "doc-requirements.txt" }}
+      - run:
+          name: install deps
+          command: |
+            tox --notest
+      - save_cache:
+          key: microscopic-{{ checksum "requirements.txt" }}-{{ checksum "test-requirements.txt" }}-{{ checksum "doc-requirements.txt" }}
+          paths:
+            - ".tox"
+
+      - run:
+          name: run tests
+          command: |
+            tox
+
+      - run:
+          name: upload coverage
+          command: |
+            codecov
