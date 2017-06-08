@@ -9,7 +9,9 @@ import alabaster
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
-    'alabaster'
+    'sphinx.ext.napoleon',
+    'alabaster',
+    'sphinxcontrib_trio'
 ]
 
 # The suffix of source filenames.
