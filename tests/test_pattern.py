@@ -36,9 +36,27 @@ def test_match_sanity(ctx):
     assert result == expected
 
 
+def test_match_multiple(ctx):
+    calls = [b'fo fo fo ']
+    expected = [(b'', b'fo'), (b' ', b'fo'), (b' ', b'fo'), (b' ', None)]
+
+    result = unroll(ctx, calls)
+
+    assert result == expected
+
+
 def test_nonmatch_sanity(ctx):
     calls = [b'    ']
     expected = [(b'    ', None)]
+
+    result = unroll(ctx, calls)
+
+    assert result == expected
+
+
+def test_nonmatch_nocombine(ctx):
+    calls = [b'test', b'test']
+    expected = [(b'test', None), (b'test', None)]
 
     result = unroll(ctx, calls)
 
