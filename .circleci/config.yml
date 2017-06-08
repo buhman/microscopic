@@ -40,7 +40,8 @@ jobs:
       - run:
           name: upload coverage
           command: |
-            venv/bin/codecov
+            source venv/bin/activate
+            codecov --required
 
       - run:
           name: upload pypi
