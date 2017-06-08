@@ -3,6 +3,13 @@ import asyncio
 from typing import AsyncGenerator, Deque, Union
 
 
+def unwrap(future):
+    exc = future.exception()
+    if exc:
+        raise exc
+    return future.result()
+
+
 async def pump_queue(queue: Deque[Union[asyncio.Future, str]], *, wait: bool=False) -> AsyncGenerator[str, None]:
     while True:
         try:
@@ -13,9 +20,10 @@ async def pump_queue(queue: Deque[Union[asyncio.Future, str]], *, wait: bool=Fal
         if not isinstance(item, asyncio.Future):
             yield item
         elif item.done():
-            yield item.result()
+            yield unwrap(item)
         elif wait:
-            yield await item
+            await item
+            yield unwrap(item)
         else:
             queue.appendleft(item)
             break
