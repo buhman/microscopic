@@ -37,6 +37,11 @@ async def test_sanity(st):
     assert result == b'T'
 
 
+async def test_context_manager_returns_self(st):
+    async with st as st:
+        assert isinstance(st, subprocess.SubprocessTransport)
+
+
 async def test_context_terminates_process_on_throw(st):
     with pytest.raises(TypeError):
         async with st:

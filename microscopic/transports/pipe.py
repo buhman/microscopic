@@ -32,6 +32,8 @@ class PipeTransport(mixins.StreamChunkMixin):
         self.read_transport = reader
         self.write_transport = writer
 
+        return self
+
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         self._read_pipe.close()
         self._write_pipe.close()

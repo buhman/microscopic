@@ -53,6 +53,11 @@ async def test_write_sanity(pt, write_pipe):
     assert result == b't'
 
 
+async def test_context_manager_returns_self(pt):
+    async with pt as pt:
+        assert isinstance(pt, pipe.PipeTransport)
+
+
 async def test_context_manager_closes(pt, write_pipe, read_pipe):
     async with pt:
         pass
