@@ -10,7 +10,7 @@ async def pump_queue(queue: Deque[Union[asyncio.Future, str]], *, wait: bool=Fal
         except IndexError:
             break
 
-        if isinstance(item, str):
+        if not isinstance(item, asyncio.Future):
             yield item
         elif item.done():
             yield item.result()
