@@ -8,12 +8,10 @@ async def pipeline(read_transport, write_transport, processor, pattern_factory):
 
         while True:
             data = await read_transport.read_chunk()
-            print('got data', data)
             if not data:
                 break
 
             for strip, match in pattern.feed(data):
-                print('feed', strip, match)
                 queue_manager.push(strip, match)
 
             async for data in queue_manager.pump():
