@@ -36,7 +36,7 @@ async def pump_queue(queue: Queue, *, wait: bool=False) -> AsyncGenerator[str, N
 
 def push_queue_pattern(strip: memoryview, match: memoryview, *,
                        queue: Queue, match_processor: MatchProcessor):
-    assert strip or match
+    #assert strip or match
 
     if strip:
         queue.append(strip)
