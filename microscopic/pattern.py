@@ -4,7 +4,10 @@ import regex
 
 
 class PatternContext:
-    def __init__(self, pattern: Union[bytes, bytearray], *, chunk_size: int):
+    def __init__(self, pattern: Union[bytes, bytearray, str], *, chunk_size: int):
+        if isinstance(pattern, str):
+            pattern = pattern.encode('utf-8')
+
         self._sre = regex.compile(pattern)
         self._state = None
         self._dirty = False

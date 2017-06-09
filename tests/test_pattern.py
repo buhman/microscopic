@@ -127,3 +127,9 @@ def test_context_manager_exception():
     with pytest.raises(TypeError):
         with pattern.PatternContext(b'', chunk_size=0):
             raise TypeError('test')
+
+
+def test_string_pattern_encoded():
+    ctx = pattern.PatternContext('test', chunk_size=4)
+
+    assert ctx._sre.pattern == b'test'
