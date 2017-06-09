@@ -27,6 +27,7 @@ def st(request):
     assert st._process.returncode is not None
 
 
+@pytest.mark.skip(reason="microscope#4")
 async def test_sanity(st):
     async with st:
         await st.write_chunk(b't')
